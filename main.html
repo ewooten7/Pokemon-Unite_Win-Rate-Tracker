@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win Rate Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Win Rate Calculator</h1>
+    
+    <label for="currentWins">Current Wins:</label>
+    <input type="number" id="currentWins" placeholder="Enter current wins"><br>
+
+    <label for="totalGames">Total Games Played:</label>
+    <input type="number" id="totalGames" placeholder="Enter total games played"><br>
+
+    <label for="desiredRate">Desired Win Rate (%):</label>
+    <input type="number" id="desiredRate" placeholder="Enter desired win rate"><br>
+
+    <button onclick="calculateWins()">Calculate Additional Wins Needed</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function calculateWins() {
+            const currentWins = parseFloat(document.getElementById('currentWins').value);
+            const totalGames = parseFloat(document.getElementById('totalGames').value);
+            const desiredRate = parseFloat(document.getElementById('desiredRate').value) / 100;
+
+            if (isNaN(currentWins) || isNaN(totalGames) || isNaN(desiredRate)) {
+                document.getElementById('result').innerText = "Please enter valid numbers for all fields.";
+                return;
+            }
+
+            const additionalWinsNeeded = (desiredRate * totalGames - currentWins) / (1 - desiredRate);
+
+            if (additionalWinsNeeded <= 0) {
+                document.getElementById('result').innerText = "You have already surpassed the desired win rate!";
+            } else {
+                document.getElementById('result').innerText = `You need to win approximately ${Math.ceil(additionalWinsNeeded)} more games.`;
+            }
+        }
+    </script>
+</body>
+</html>
