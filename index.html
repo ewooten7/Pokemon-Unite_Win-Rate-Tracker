@@ -1,60 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Win Rate Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        input, button {
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-        }
-        .result {
-            font-size: 18px;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Win Rate Calculator</title>
+  <!-- Link to external CSS file -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="container">
     <h1>Win Rate Calculator</h1>
-    
-    <label for="currentWins">Current Wins:</label>
-    <input type="number" id="currentWins" placeholder="Enter current wins"><br>
 
-    <label for="totalGames">Total Games Played:</label>
-    <input type="number" id="totalGames" placeholder="Enter total games played"><br>
+    <div class="form-section">
+      <label for="current-wins">Current Wins:</label>
+      <input type="number" id="current-wins" placeholder="Enter current wins">
 
-    <label for="desiredRate">Desired Win Rate (%):</label>
-    <input type="number" id="desiredRate" placeholder="Enter desired win rate"><br>
+      <label for="total-games">Total Games Played:</label>
+      <input type="number" id="total-games" placeholder="Enter total games played">
 
-    <button onclick="calculateWins()">Calculate Additional Wins Needed</button>
+      <label for="target-percentage">Target Win Rate (%):</label>
+      <input type="number" id="target-percentage" placeholder="Enter desired win rate">
 
-    <div class="result" id="result"></div>
+      <button id="calculate-btn">Calculate Wins Needed</button>
 
-    <script>
-        function calculateWins() {
-            const currentWins = parseFloat(document.getElementById('currentWins').value);
-            const totalGames = parseFloat(document.getElementById('totalGames').value);
-            const desiredRate = parseFloat(document.getElementById('desiredRate').value) / 100;
+      <p id="error-message" class="error"></p>
+      <div id="result" class="result-box"></div>
+    </div>
+  </div>
 
-            if (isNaN(currentWins) || isNaN(totalGames) || isNaN(desiredRate)) {
-                document.getElementById('result').innerText = "Please enter valid numbers for all fields.";
-                return;
-            }
+  <script>
+    // JavaScript code for calculation
+    document.getElementById("calculate-btn").addEventListener("click", function() {
+      const currentWins = parseInt(document.getElementById("current-wins").value);
+      const totalGames = parseInt(document.getElementById("total-games").value);
+      const targetPercentage = parseFloat(document.getElementById("target-percentage").value);
+      const errorMessage = document.getElementById("error-message");
+      const resultBox = document.getElementById("result");
 
-            const additionalWinsNeeded = (desiredRate * totalGames - currentWins) / (1 - desiredRate);
+      if (isNaN(currentWins) || isNaN(totalGames) || isNaN(targetPercentage)) {
+        errorMessage.textContent = "Please fill in all fields correctly.";
+        resultBox.style.display = "none";
+        return;
+      }
 
-            if (additionalWinsNeeded <= 0) {
-                document.getElementById('result').innerText = "You have already surpassed the desired win rate!";
-            } else {
-                document.getElementById('result').innerText = `You need to win approximately ${Math.ceil(additionalWinsNeeded)} more games.`;
-            }
-        }
-    </script>
+      // Validate if target percentage is within 0-100%
+      if (targetPercentage < 0 || targetPercentage > 100) {
+        errorMessage.textContent = "Please enter a target win rate between 0 and 100.";
+        resultBox.style.display = "none";
+        return;
+      }
+
+      // Calculate the number of additional wins needed
+      const neededWins = Math.ceil((targetPercentage / 100 * totalGames - currentWins) / (1 - targetPercentage / 100));
+
+      if (neededWins < 0) {
+        errorMessage.textContent = "You have already exceeded this win rate.";
+        resultBox.style.display = "none";
+      } else {
+        errorMessage.textContent = "";
+        resultBox.textContent = `You need ${neededWins} more wins to reach a ${targetPercentage}% win rate.`;
+        resultBox.style.display = "block";
+      }
+    });
+  </script>
 </body>
 </html>
