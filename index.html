@@ -4,15 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Win Rate Calculator</title>
+  <title>Win Rate & ELO Tracker</title>
   <!-- Link to external CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h1>Win Rate Calculator</h1>
+    <h1>Win Rate & ELO Tracker</h1>
 
+    <!-- Win Rate Section -->
     <div class="form-section">
+      <h2>Win Rate Calculator</h2>
       <label for="current-wins">Current Wins:</label>
       <input type="number" id="current-wins" placeholder="Enter current wins">
 
@@ -26,6 +28,46 @@
 
       <p id="error-message" class="error"></p>
       <div id="result" class="result-box"></div>
+    </div>
+
+    <!-- ELO Tracker Section -->
+    <div class="elo-tracker">
+      <h2>ELO Tracker</h2>
+
+      <!-- Match Type Selection -->
+      <label for="matchType">Select Match Type:</label>
+      <select id="matchType">
+        <option value="10min">10-Minute Match</option>
+        <option value="5min">5-Minute Match</option>
+      </select>
+
+      <!-- Result Selection (Win/Loss) -->
+      <label for="result">Match Result:</label>
+      <select id="result">
+        <option value="win">Win</option>
+        <option value="lose">Lose</option>
+      </select>
+
+      <!-- ELO Booster Toggle -->
+      <label for="eloBooster">ELO Booster Active?</label>
+      <input type="checkbox" id="eloBooster">
+
+      <!-- Current ELO Input -->
+      <label for="currentELO">Current ELO Points:</label>
+      <input type="number" id="currentELO" placeholder="Enter Current ELO">
+
+      <!-- Button to Calculate ELO -->
+      <button id="calculateELO">Calculate ELO</button>
+
+      <!-- Result -->
+      <div id="eloResult"></div>
+
+      <!-- Badge Progress -->
+      <h3>Badge Progress</h3>
+      <p>Green Badge: 30,000pts</p>
+      <p>Blue Badge: 85,000pts</p>
+      <p>Gold Badge: 165,000pts</p>
+      <div id="badgeProgress"></div>
     </div>
   </div>
 
